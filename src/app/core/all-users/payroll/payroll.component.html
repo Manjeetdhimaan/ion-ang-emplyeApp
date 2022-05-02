@@ -1,0 +1,163 @@
+<app-admin-header *ngIf="!isEmployee"></app-admin-header>
+<app-header *ngIf="isEmployee"></app-header>
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center lh-1 mb-2">
+                <h6 class="fw-bold">Payslip</h6>
+                <!-- <span class="fw-normal">Payment slip for the month of June 2021</span> -->
+            </div>
+            <div class="d-flex justify-content-end"> <span>Working Branch:XXX</span> </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">EMP Code</span> <small class="ms-3">39124</small> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">EMP Name</span> <small class="ms-3">XXXX</small> </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">PF No.</span> <small class="ms-3">101523065714</small> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">NOD</span> <small class="ms-3">28</small> </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">ESI No.</span> <small class="ms-3"></small> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">Mode of Pay</span> <small class="ms-3">SBI</small> </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">Designation</span> <small class="ms-3">Marketing Staff (MK)</small> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">Ac No.</span> <small class="ms-3">*******0701</small> </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="mt-4 table question" [formGroup]="payrollForm" (ngSubmit)="onSavePayroll()">
+                    <table class="mt-4 table table-bordered">
+
+                        <thead class="">
+                            <tr>
+                                <th scope="col">Select Month</th>
+                                <th scope="row"><input id="month" type="month" formControlName="month"></th>
+                            </tr>
+                        </thead>
+                        <thead class="bg-dark text-white">
+                            <tr>
+                                <th scope="col">Earnings</th>
+                                <th scope="col">Amount (in INR)</th>
+                                <th scope="col">Deductions</th>
+                                <th scope="col">Amount (in INR)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Basic</th>
+                                <td><input type="number" class="question" [value]="basic" [(ngModel)]="basic" formControlName="basic"></td>
+                                <td>PF</td>
+                                <td><input type="number" formControlName="pf" [(ngModel)]="pf" [value]="pf"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">DA</th>
+                                <td><input type="number" formControlName="da" [(ngModel)]="da" [value]="da"></td>
+                                <td>ESI</td>
+                                <td><input type="number" formControlName="esi" [(ngModel)]="esi" [value]="esi"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">HRA</th>
+                                <td><input type="number" [value]="hra" [(ngModel)]="hra" formControlName="hra"></td>
+                                <td>TDS</td>
+                                <td><input type="number" formControlName="tds" [(ngModel)]="tds" [value]="tds"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">WA</th>
+                                <td><input type="number" [value]="wa" [(ngModel)]="wa" formControlName="wa"></td>
+                                <td>LOP</td>
+                                <td><input type="number" formControlName="lop" [(ngModel)]="lop" [value]="lop"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">CA</th>
+                                <td><input type="number" [value]="ca" [(ngModel)]="ca" formControlName="ca"></td>
+                                <td>PT</td>
+                                <td><input type="number" formControlName="pt" [(ngModel)]="pt" [value]="pt"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">CCA</th>
+                                <td><input type="number" [value]="cca" [(ngModel)]="cca" formControlName="cca"></td>
+                                <td>SPL. Deduction</td>
+                                <td><input type="number" formControlName="SPL_Deduction" [(ngModel)]="SPL_Deduction" [value]="SPL_Deduction"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">MA</th>
+                                <td><input type="number" [value]="ma" [(ngModel)]="ma" formControlName="ma"></td>
+                                <td>EWF</td>
+                                <td><input type="number" formControlName="ewf" [(ngModel)]="ewf" [value]="ewf"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Sales Incentive</th>
+                                <td><input type="number" [value]="SalesIncentive" [(ngModel)]="SalesIncentive" formControlName="SalesIncentive"></td>
+                                <td>CD</td>
+                                <td><input type="number" formControlName="cd" [(ngModel)]="cd" [value]="cd"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Leave Encashment</th>
+                                <td><input type="number" [value]="LeaveEncashment" [(ngModel)]="LeaveEncashment" formControlName="LeaveEncashment"></td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Holiday Wages</th>
+                                <td><input type="number" [value]="HolidayWages" [(ngModel)]="HolidayWages" formControlName="HolidayWages"></td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Special Allowance</th>
+                                <td><input type="number" [value]="SpecialAllowance" [(ngModel)]="SpecialAllowance" formControlName="SpecialAllowance"></td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Bonus</th>
+                                <td><input type="number" [value]="Bonus" [(ngModel)]="Bonus" formControlName="Bonus"></td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Individual Incentive</th>
+                                <td><input type="number" [value]="IndividualIncentive" [(ngModel)]="IndividualIncentive" formControlName="IndividualIncentive"></td>
+                                <td colspan="2"></td>
+                            </tr>
+                            <tr class="border-top">
+                                <th scope="row">Total Earning</th>
+                                <td>₹{{ onGetTotalEarning() }}</td>
+                                <td>Total Deductions</td>
+                                <td>₹{{ onGetTotalDeductions() }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-primary" type="submit">Save Salary Slip</button>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-4"> <br> <span class="fw-bold">Net Pay : 24528.00</span> </div>
+                <div class="border col-md-8">
+                    <div class="d-flex flex-column"> <span>In Words</span> <span>Twenty Five thousand nine hundred seventy only</span> </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="d-flex flex-column mt-2"> <span class="fw-bolder">Younedia</span> <span class="mt-4">Authorised Signatory</span> </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner *ngIf="isLoading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

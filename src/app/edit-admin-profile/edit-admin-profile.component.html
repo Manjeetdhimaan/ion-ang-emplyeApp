@@ -1,0 +1,62 @@
+<app-admin-header></app-admin-header>
+<div class="container">
+    <div class="tab-content pt-3">
+        <div class="tab-pane active">
+            <!-- form -->
+            <form class="form" [formGroup]="editAdminProfileForm" (ngSubmit)="onUpdateValues()" novalidate="" id="controls">
+                <div class="row">
+                    <div class="col-12 col-sm-6 mb-3">
+                        <div class="mb-2">
+
+                            <div class="form-group" sty>
+                                <label>Email</label>
+                                <input class="form-control" type="text" [value]="email" formControlName="email" placeholder="{{email}}" value="{{user.email}}">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-sm-6 mb-3">
+                        <div class="mb-2"><b>Change Password</b></div>
+                        <!-- <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label>Current Password</label>
+                <input class="form-control" type="password" placeholder="••••••">
+              </div>
+            </div>
+          </div> -->
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>New Password</label>
+                                    <input class="form-control" type="password" formControlName="password" placeholder="••••••">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
+                                    <input formControlName="confirmPassword" class="form-control" type="password" placeholder="••••••">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+                <ngx-spinner *ngIf="isLoading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+                    <p style="color: white"> Loading... </p>
+                </ngx-spinner>
+
+
+                <div class="row">
+                    <div class="col d-flex justify-content-end">
+                    </div>
+                </div>
+                <!-- form -->
+            </form>
+        </div>
+    </div>
+</div>

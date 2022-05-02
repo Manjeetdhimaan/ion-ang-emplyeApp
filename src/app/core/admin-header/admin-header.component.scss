@@ -1,0 +1,13 @@
+.notifications {
+    color: blue;
+    background: orange;
+    border-radius: 50%;
+    padding: 0 4px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.active {
+    border-radius: 25px;
+    border-bottom: 1px solid #fff;
+}

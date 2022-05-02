@@ -1,0 +1,26 @@
+<app-admin-header></app-admin-header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let user of users" (click)="onSelectUser(user)">
+
+            <figure class="snip1344">
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/profile-sample1.jpg" alt="profile-sample1" class="background" /><img src="{{user.pic}}" alt="profile-sample1" class="profile" />
+                <figcaption>
+
+                    <h3>{{user.fullname }}<span>{{user.service}}</span></h3>
+                    <!-- <div class="icons"><a ><i class="ion-social-reddit-outline"></i></a><a> <i
+                                class="ion-social-twitter-outline"></i></a><a > <i
+                                class="ion-social-vimeo-outline"></i></a></div> -->
+                    <div *ngFor="let a of user.leaves"> <span class="notifications" *ngIf="a.status=='Pending'">new
+                            notifications</span> </div>
+                </figcaption>
+
+            </figure>
+
+        </div>
+    </div>
+</div>
+<ngx-spinner *ngIf="isLoading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

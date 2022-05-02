@@ -1,0 +1,30 @@
+.success {
+    color: green;
+    font-weight: bold;
+}
+
+.danger {
+    color: red;
+    font-weight: bold;
+}
+
+.warn {
+    color: rgb(224, 224, 24);
+    font-weight: bold;
+}
+
+.notifications {
+    color: blue;
+    background: orange;
+    border-radius: 50%;
+    padding: 4px;
+    font-size: 14px;
+    font-weight: 800;
+    width: 50%;
+    margin: auto;
+    margin-top: 2px;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}

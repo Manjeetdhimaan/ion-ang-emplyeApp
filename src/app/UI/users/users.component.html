@@ -1,0 +1,223 @@
+<app-admin-header *ngIf="!isEmployee"></app-admin-header>
+<app-header *ngIf="isEmployee"></app-header>
+
+
+
+<div class="container emp-profile" *ngIf="!isLoading">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img style="border-radius:50%" [src]="user?.pic" [alt]="user?.fullname" />
+                    <!-- <div class="file btn btn-lg btn-primary">
+                        Change Photo
+                        <input type="file" name="file"/>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="profile-head">
+                    <h5>
+                        {{user?.fullname | uppercase}}
+                    </h5>
+                    <h6 *ngIf="user?.service!=='none'">
+                        {{user?.service}}
+                    </h6>
+                    <button class='btn btn-success' type="button" (click)="onNavigateToSalaryComponent()">Create Salary Slip</button>
+
+                    <p style="visibility: hidden;" class="proile-rating">RANKINGS : <span>8/10</span></p>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Timeline</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="attendance-tab" data-toggle="tab" href="#attendance" role="tab" aria-controls="attendance" aria-selected="false">Attendance</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" routerLink="/viewsalary/{{id}}" id="salary-tab">View Salary Slips</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2" *ngIf="editProfile">
+                <input type="button" routerLink="/editProfile/{{paramName}}" class="profile-edit-btn" name="btnAddMore" value="Edit Profile" />
+            </div>
+
+        </div>
+
+    </form>
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-8">
+            <div class="tab-content profile-tab" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <!-- <div class="row">
+                                <div class="col-md-6">
+                                    <label>User Id</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>Kshiti123</p>
+                                </div>
+                            </div> -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Name</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{user?.fullname | uppercase}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Email</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{user?.email}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Phone</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{user?.phone}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Profession</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{user?.service}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Experience</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Fresher</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Remaining Leaves</label>
+                        </div>
+                        <div class="col-md-6" *ngIf="user?.remainingLeaves">
+                            <p>{{user?.remainingLeaves}}</p>
+                        </div>
+                        <div class="col-md-6" *ngIf="!user?.remainingLeaves">
+                            <p>{{remainingLeaves}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Job type</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>Full time</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Bio</label>
+                        </div>
+                        <div class="col-md-6">
+                            <p>{{user?.bio}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="attendance" role="tabpanel" aria-labelledby="attendance-tab">
+                    <div class="row">
+                        <div class='container'>
+                            <div class='row'>
+                                <div class='col-sm-4' *ngIf="editAttendance">
+                                    <div>
+                                        <button style="margin-bottom: 1rem;" class='btn btn-success' type="button" (click)="checkIn()">Check IN</button>
+                                        <button style="margin-bottom: 1rem;" class='btn btn-success btn-block' type="button" (click)="dowbloadPdf()">Download Pdf</button>
+                                        <button class="btn btn-success btn-block" (click)="openPDF()">Download PDF of this page</button>
+                                        <ngx-spinner *ngIf="isLoading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+                                            <p style="color: white"> Loading... </p>
+                                        </ngx-spinner>
+
+                                    </div>
+                                </div>
+                                <div class='col-sm-4' *ngIf="editAttendance">
+                                    <a style="margin-bottom: 1rem;" class='btn btn-warning' (click)="openForm()">Proceed to CheckOut <span
+                                    class='glyphicon glyphicon-chevron-right'></span></a>
+                                </div>
+                                <div class='htmlData' style="margin-top: 1rem; ">
+                                    <div class=''>
+                                        <table class='table table-responsive table-bordered'>
+                                            <tr>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Entry time</th>
+                                                <th scope="col">Exit time</th>
+                                                <th scope="col">Exit Type</th>
+                                            </tr>
+                                            <tr *ngFor="let a of attendance | paginate: { itemsPerPage: 5, currentPage: p }">
+                                                <td>{{a.date | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{a.entry | date:'HH:mm:ss'}}</td>
+                                                <td>
+                                                    {{a.exit.time | date:'HH:mm:ss'}}
+                                                </td>
+                                                <td>
+                                                    {{a.exit.exitType}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div>
+                                            <pagination-controls *ngIf="attendance?.length>5" (pageChange)="p = $event"></pagination-controls>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dialog" [ngStyle]="{'display':popUp === false ? 'none' : 'block' }">
+                            <form class="form-container" [formGroup]="profileForm" (ngSubmit)="checkOut()">
+
+                                <div class="block">
+                                    <h1>Exit Type</h1>
+                                    <input id="fullday" type="radio" checked value="Full day" formControlName="exitType">
+                                    <label for="fullday"> Full Day </label>
+                                </div>
+                                <div class="block">
+                                    <input id="halfday" type="radio" value="Half day" formControlName="exitType">
+                                    <label for="halfday"> Half Day</label>
+                                </div>
+                                <button class="btn btn-success" type="submit">Submit</button>
+
+                                <button type="button" class="btn cancel" (click)="closeForm()">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="profile-work">
+                <p>WORK LINK</p>
+                <a href="">Website Link</a><br />
+                <a href="">Bootsnipp Profile</a><br />
+                <a href="">Bootply Profile</a>
+                <p>SKILLS</p>
+                <a href="">Web Designer</a><br />
+                <a href="">Web Developer</a><br />
+                <a href="">WordPress</a><br />
+                <a href="">WooCommerce</a><br />
+                <a href="">PHP, .Net</a><br />
+            </div>
+        </div>
+    </div>
+</div>
+<ngx-spinner *ngIf="isLoading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

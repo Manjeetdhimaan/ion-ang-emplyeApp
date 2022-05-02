@@ -1,0 +1,53 @@
+<app-header></app-header>
+
+<div style="text-align: center;">
+
+    <div class="col-sm-6" style="flex:0 0 50%; max-width:60%; margin-top:1rem; text-align:-webkit-center;">
+        <div class="thumbnail">
+            <img style="height:150px;width:150px;border-radius: 100%" [src]="user?.pic" />
+            <h1><strong>Name:</strong> {{user?.fullname | uppercase}}</h1>
+            <h4><strong>Email:</strong>{{user?.email}}</h4>
+
+            <h4>Contact no: {{user?.phone}}</h4>
+            <h4>Applied Leaves: {{user?.appliedLeaves}}</h4>
+            <!-- <h4>Department:<%=student.department%></h4>
+        <h4>Hostel: <%=student.hostel%></h4> -->
+        </div>
+    </div>
+
+    <div class='' style="margin-top: 1rem; " *ngIf="user?.leaves.length>0">
+        <div class=''>
+            <!-- <p class='lead'>Overview   <a  class='btn btn-success'>Download PDF  <span class='glyphicon glyphicon-download'></span></a></p> 
+                <p></p> -->
+            <table class='table  table-bordered'>
+                <thead>
+                    <tr>
+                        <th scope="col">From</th>
+                        <th scope="col">To</th>
+                        <th scope="col">Reason</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let leave of leaves | paginate: { itemsPerPage: 5, currentPage: p }">
+                    <tr>
+                        <td>{{leave.from | date:'dd-MM-yyyy'}}</td>
+                        <td>{{leave.to | date:'dd-MM-yyyy'}}</td>
+                        <td>
+                            {{leave.reason}}
+                        </td>
+                        <td>
+                            <span [ngClass]="getCustomCss(leave.status)">{{leave.status}}</span>
+                            <div aria-required="true" class="">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls *ngIf="user?.leaves.length>5" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="user?.leaves.length==0" style="text-align: center; color: rgb(216, 22, 22);">
+    <h1>No applied leaves</h1>
+</div>

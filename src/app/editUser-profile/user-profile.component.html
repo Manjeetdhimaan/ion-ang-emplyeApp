@@ -1,0 +1,280 @@
+<div>
+    <app-header></app-header>
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container" style="margin-top: 2rem;">
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="e-profile">
+                            <div class="row">
+                                <div class="col-12 col-sm-auto mb-3">
+                                    <div class="mx-auto" style="width: 140px;">
+                                        <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; ">
+                                            <img style="border-radius:50%" src="{{user?.pic}}" alt="{{user?.fullname}}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                    <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                        <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user?.fullname | uppercase}}</h4>
+                                        <p class="mb-0">{{user?.email}}</p>
+                                        <div class="mt-2">
+                                        </div>
+                                    </div>
+                                    <div class="text-center text-sm-right">
+                                        <span class="badge badge-secondary">Employee</span>
+                                        <div class="text-muted"><small>Joined {{user?.joindate |
+                                                date:'dd-MM-yyyy'}}</small></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item" (click)="onGetSettings()"><a [ngClass]="{'active' : !getAttendance&&!getApplyLeave}" class="nav-link">User Details</a></li>
+                                <li class="nav-item" (click)="onGetAttendance()"><a [ngClass]="{'active' : getAttendance&&!getApplyLeave}" class="nav-link">Attendance</a></li>
+                                <li class="nav-item" (click)="onGetApplyLeave()"><a [ngClass]="{'active' : !getAttendance&&getApplyLeave}" class="nav-link">Apply
+                                        Leave</a></li>
+                            </ul>
+
+                            <!-- attendance -->
+
+
+                            <div style="margin-top: 3rem;" class='container' *ngIf="getAttendance&&!getApplyLeave">
+                                <div class='row'>
+
+                                    <div class='' style="margin-top: 1rem; ">
+                                        <div class=''>
+                                            <!-- <p class='lead'>Overview   <a  class='btn btn-success'>Download PDF  <span class='glyphicon glyphicon-download'></span></a></p> 
+                  <p></p> -->
+                                            <table class='table table-responsive table-bordered'>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Entry time</th>
+                                                        <th scope="col">Exit time</th>
+                                                        <th scope="col">Exit Type</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngFor="let a of attendance | paginate: { itemsPerPage: 5, currentPage: p }">
+                                                    <tr>
+                                                        <td>{{a.date | date:'dd-MM-yyyy'}}</td>
+                                                        <td>{{a.entry | date:'HH:mm:ss'}}</td>
+                                                        <td>
+                                                            {{a.exit.time | date:'HH:mm:ss'}}
+                                                        </td>
+                                                        <td>
+                                                            {{a.exit.exitType}}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div *ngIf="attendance.length>5">
+                                                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- apply leave -->
+                            <div class="col-md-12" style="margin-top: 2rem;" *ngIf="!getAttendance&&getApplyLeave">
+                                <div class="card ctm-border-radius shadow-sm grow">
+                                    <div class="card-header">
+                                        <h4 class="card-title mb-0">Apply Leaves</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- form -->
+                                        <form novalidate="" [formGroup]="applyLeaveForm" (ngSubmit)="applyLeave()" class="ng-untouched ng-pristine ng-invalid">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div aria-required="true" class="form-group">
+                                                        <label>Reason<span class="text-danger">*</span></label>
+                                                        <select formControlName="reason" class="form-control select ng-untouched ng-pristine ng-invalid">
+                                                            <option [ngValue]="null">Select</option>
+                                                            <option value="Urgent Work">Urgent Work</option>
+                                                            <option value="Sick Leave">Sick Leave</option>
+                                                            <option value="Parental Leave">Parental Leave</option>
+                                                            <option value="Annual Leave">Annual Leave</option>
+                                                            <option value="Normal Leave">Normal Leave</option>
+                                                        </select>
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 leave-col" *ngIf="user?.remainingLeaves">
+                                                    <div class="form-group"><label>Remaining
+                                                            Leaves</label><input type="text" placeholder="{{user?.remainingLeaves}}" disabled="" class="form-control"></div>
+                                                </div>
+                                                <div class="col-sm-6 leave-col" *ngIf="!user?.remainingLeaves">
+                                                    <div class="form-group"><label>Remaining
+                                                            Leaves</label><input type="text" placeholder="{{remainingLeaves}}" disabled="" class="form-control"></div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>From</label>
+                                                        <input type="date" formControlName="from" bsdatepicker="" class="form-control datetimepicker ng-untouched ng-pristine ng-invalid">
+                                                        <!---->
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 leave-col">
+                                                    <div class="form-group">
+                                                        <label>To</label>
+                                                        <input type="date" formControlName="to" bsdatepicker="" class="form-control datetimepicker ng-untouched ng-pristine ng-invalid">
+                                                        <!---->
+                                                        <!---->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center">
+                                                <button type="submit" class="btn btn-theme button-1 text-white ctm-border-radius mt-4 mr-2">
+                                                    Apply
+                                                </button>
+                                                <ngx-spinner *ngIf="isLoading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+                                                    <p style="color: white"> Loading... </p>
+                                                </ngx-spinner>
+
+                                                <a routerLink="" class="btn btn-danger text-white ctm-border-radius mt-4">Cancel</a>
+                                            </div>
+                                            <!-- form -->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- settings -->
+                            <div class="tab-content pt-3" *ngIf="!getAttendance&&!getApplyLeave">
+                                <div class="tab-pane active">
+                                    <!-- form -->
+                                    <form class="form" [formGroup]="editProfileForm" (ngSubmit)="onUpdateValues()" novalidate="" id="controls">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Full Name</label>
+                                                            <input class="form-control" type="text" [value]="fullname" formControlName="fullname" placeholder="{{fullname}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Email</label>
+                                                                <input class="form-control" type="text" [value]="email" formControlName="email" placeholder="{{email}}">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col mb-3">
+                                                        <div class="form-group">
+                                                            <label>Bio</label>
+                                                            <textarea type="text" class="form-control" rows="5" formControlName="bio" [value]="bio" placeholder="{{bio}}"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12 col-sm-6 mb-3">
+                                                <div class="mb-2"><b>Change Password</b></div>
+                                                <!-- <div class="row">
+                        <div class="col">
+                          <div class="form-group">
+                            <label>Current Password</label>
+                            <input class="form-control" type="password" placeholder="••••••">
+                          </div>
+                        </div>
+                      </div> -->
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>New Password</label>
+                                                            <input class="form-control" type="password" formControlName="password" placeholder="••••••">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            <label>Confirm <span
+                                                                    class="d-none d-xl-inline">Password</span></label>
+                                                            <input formControlName="confirmPassword" class="form-control" type="password" placeholder="••••••">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                      <div class="mb-2"><b>Keeping in Touch</b></div>
+                      <div class="row">
+                        <div class="col">
+                          <label>Email Notifications</label>
+                          <div class="custom-controls-stacked px-2">
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="notifications-blog" checked="">
+                              <label class="custom-control-label" for="notifications-blog">Blog posts</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="notifications-news" checked="">
+                              <label class="custom-control-label" for="notifications-news">Newsletter</label>
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input" id="notifications-offers" checked="">
+                              <label class="custom-control-label" for="notifications-offers">Personal Offers</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div> -->
+                                        </div>
+                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                        <ngx-spinner *ngIf="isLoading" bdColor="rgba(0, 0, 0, 0.8)" size="default" color="#fff" type="line-spin-fade" [fullScreen]="true">
+                                            <p style="color: white"> Loading... </p>
+                                        </ngx-spinner>
+
+
+                                        <div class="row">
+                                            <div class="col d-flex justify-content-end">
+                                            </div>
+                                        </div>
+                                        <!-- form -->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12 col-md-3 mb-3">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="px-xl-3">
+                            <button class="btn btn-block btn-secondary" (click)="userLogout()">
+                                <i class="fa fa-sign-out"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title font-weight-bold">Support</h6>
+                        <p class="card-text">Get fast, free help from our friendly assistants.</p>
+                        <button type="button" class="btn btn-primary">Contact Us</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- apply leave -->

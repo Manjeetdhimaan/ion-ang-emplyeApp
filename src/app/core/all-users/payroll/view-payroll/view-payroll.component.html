@@ -1,0 +1,157 @@
+<app-admin-header *ngIf="!isEmployee"></app-admin-header>
+<app-header *ngIf="isEmployee"></app-header>
+
+<div class="container mt-5 mb-5" *ngFor="let pay of payroll | paginate: { itemsPerPage: 1, currentPage: p }">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center lh-1 mb-2">
+                <h6 class="fw-bold">Payslip</h6> <span class="fw-normal">Payment slip for the month of {{pay.month}}</span>
+            </div>
+            <div class="d-flex justify-content-end"> <span>Working Branch : XXX</span> </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">EMP Code : </span> <strong class="ms-3"> 39124</strong> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">EMP Name : </span> <strong class="ms-3"> {{user.fullname}}</strong> </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">PF No. : </span> <strong class="ms-3">101523065714</strong> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">NOD : </span> <strong class="ms-3">28</strong> </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">ESI No. : </span> <strong class="ms-3"></strong> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">Mode of Pay : </span> <strong class="ms-3">SBI</strong> </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">Designation : </span> <strong class="ms-3">{{user?.service}}</strong> </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div> <span class="fw-bolder">Ac No. : </span> <strong class="ms-3">*******0701</strong> </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="mt-4 table table-bordered">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th scope="col">Earnings</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Deductions</th>
+                            <th scope="col">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Basic</th>
+                            <td>₹{{pay.basic}}</td>
+                            <td>PF</td>
+                            <td>1800.00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">DA</th>
+                            <td>₹{{pay.da}}</td>
+                            <td>ESI</td>
+                            <td>142.00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">HRA</th>
+                            <td>₹{{pay.hra}}</td>
+                            <td>TDS</td>
+                            <td>0.00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">WA</th>
+                            <td>₹{{pay.wa}}</td>
+                            <td>LOP</td>
+                            <td>0.00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">CA</th>
+                            <td>₹{{pay.ca}}</td>
+                            <td>PT</td>
+                            <td>0.00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">CCA</th>
+                            <td>₹{{pay.cca}}</td>
+                            <td>SPL. Deduction</td>
+                            <td>500.00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">MA</th>
+                            <td>₹{{pay.ma}}</td>
+                            <td>EWF</td>
+                            <td>0.00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Sales Incentive</th>
+                            <td>₹{{pay.SalesIncentive}}</td>
+                            <td>CD</td>
+                            <td>0.00</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Leave Encashment</th>
+                            <td>₹{{pay.LeaveEncashment}}</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Holiday Wages</th>
+                            <td>₹{{pay.HolidayWages}}</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Special Allowance</th>
+                            <td>₹{{pay.SpecialAllowance}}</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Bonus</th>
+                            <td>₹{{pay.Bonus}}</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Individual Incentive</th>
+                            <td>₹{{pay.IndividualIncentive}}</td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr class="border-top">
+                            <th scope="row">Total Earning</th>
+                            <td>₹{{pay.totalEarning}}</td>
+                            <td>Total Deductions</td>
+                            <td>2442.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-md-4"> <br> <span class="fw-bold">Net Pay : 24528.00</span> </div>
+                <div class="border col-md-8">
+                    <div class="d-flex flex-column"> <span>In Words</span> <span>Twenty Five thousand nine hundred seventy only</span> </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <div class="d-flex flex-column mt-2"> <span class="fw-bolder">Younedia</span> <span class="mt-4">Authorised Signatory</span> </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div style="text-align: center;">
+    <pagination-controls *ngIf="payroll?.length>1" (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<div style="text-align: center;" *ngIf="payroll?.length<=0">
+    <h1>No Salary slip yet!</h1>
+</div>
